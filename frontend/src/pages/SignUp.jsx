@@ -22,6 +22,7 @@ const [userName,setUserName]=useState("")
 const [err,setErr]=useState("")
 const [email,setEmail]=useState("")
 const [password,setPassword]=useState("")
+
 const navigate=useNavigate()
 
 const handleSignUp=async ()=>{
@@ -34,7 +35,7 @@ const handleSignUp=async ()=>{
     setLoading(false)
   } catch (error) {
   
-
+    setErr(error.response.data.message)
     setLoading(false)
   }
 }
@@ -70,7 +71,7 @@ const handleSignUp=async ()=>{
         <input type={showPassword?"text":"password"} id='password' className='w-[100%] h-[100%] rounded-2xl px-[20px] outline-none border-0' required onChange={(e)=>setPassword(e.target.value)} value={password}/>
         {!showPassword?<IoIosEye className='absolute cursor-pointer right-[20px] w-[25px] h-[25px]' onClick={()=>setShowPassword(true)}/>:<IoIosEyeOff className='absolute cursor-pointer right-[20px] w-[25px] h-[25px]' onClick={()=>setShowPassword(false)}/>} 
 </div>
-
+{err && <p className='text-red-500'>{err}</p>}
 
 
 <button className='w-[70%] px-[20px] py-[10px] bg-black text-white font-semibold h-[50px] cursor-pointer rounded-2xl mt-[30px]' onClick={handleSignUp} disabled={loading}>{loading?<ClipLoader size={30} color='white'/>:"Sign Up"}</button>
