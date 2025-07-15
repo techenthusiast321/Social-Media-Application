@@ -1,7 +1,7 @@
-import nodeMailer from "nodemailer"
+import nodemailer from "nodemailer"
 import dotenv from 'dotenv'
 dotenv.config()
-const transporter = nodeMailer.createTransport({
+const transporter = nodemailer.createTransport({
   service: "Gmail",
   port: 465,
   secure: true, // true for 465, false for other ports
@@ -13,7 +13,7 @@ const transporter = nodeMailer.createTransport({
 
 
 const sendMail=async(to,otp)=>{
-  transporter.sendMail({
+  await transporter.sendMail({
     from:process.env.EMAIL,
     to,
     subject:"Reset Your Passowrd",

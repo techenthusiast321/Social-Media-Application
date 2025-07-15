@@ -54,7 +54,7 @@ export const signIn=async(req,res)=>{
         if(!user){
             return res.status(400).json({message:"User not found !"})
         }
-        const isMatched=bcrypt.compare(password,user.password)
+        const isMatched=await bcrypt.compare(password,user.password)
 
         if(!isMatched){
             return res.status(400).json({message:"Incorrect Password !"});
@@ -98,7 +98,7 @@ export const sendOtp=async(req,res)=>{
         const otp=Math.floor(1000+ Math.random()*9000).toString();
 
         user.resetOtp=otp;
-        user.otpExpires=new Date.now()+5*60*1000;
+        user.otpExpires=Date.now()+5*60*1000;
 
         user.isOtpVerified=false;
 
@@ -147,7 +147,7 @@ export const resetPassword=async(req,res)=>{
          await user.save();
          return res.status(200).json({message:"password reset successfully"});
     }catch{
-        return res.status(500).json({message:`reset otp error ${error}`})
+        return res.status(500).json({message:`reset otp error ${error}`});
     }
 }
 
