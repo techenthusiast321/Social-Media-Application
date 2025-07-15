@@ -19,22 +19,22 @@ const [showPassword,setShowPassword]=useState(false)
 const [loading,setLoading]=useState(false)
 const [name,setName]=useState("")
 const [userName,setUserName]=useState("")
-
+const [err,setErr]=useState("")
 const [email,setEmail]=useState("")
 const [password,setPassword]=useState("")
 const navigate=useNavigate()
 
 const handleSignUp=async ()=>{
   setLoading(true)
-
+  setErr("")
 
   try {
     const result=await axios.post(`${serverUrl}/api/auth/signup`,{name,userName,email,password},{withCredentials:true})
-  
+
     setLoading(false)
   } catch (error) {
-    
-    console.log(error)
+  
+
     setLoading(false)
   }
 }
