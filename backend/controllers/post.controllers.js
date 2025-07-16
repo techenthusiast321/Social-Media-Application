@@ -28,7 +28,7 @@ export const uploadPost=async(req,res)=>{
 
 export const getAllPosts=async(req,res)=>{
     try{
-        const posts=await Post.find({author:req.userId}).populate("author","name userName profileImage") //Doubt h isme;
+        const posts=await Post.find({}).populate("author","name userName profileImage") //Doubt h isme;
         return res.status(200).json(posts);
     }catch(error){
          return res.status(500).json({message:`get all post error: ${error}`});
@@ -78,12 +78,11 @@ export const comment=async(req,res)=>{
         })
 
         await post.save()
-        post.populate("author","name userName profileImage"),
-        post.populate("comments.author") 
+        post.populate("author","name userName profileImage").populate("comments.author") 
         
         return res.status(200).json(post);
     }catch(error){
-         return res.status(500).json({message:`Comment Controller error: ${error}`});
+         return res.status(500).json({message:`CommentPost Controller error: ${error}`});
     }
 }
 

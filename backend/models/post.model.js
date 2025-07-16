@@ -21,6 +21,12 @@ const postSchema = new mongoose.Schema(
     },
     likes: [
       {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
+    comments: [
+      {
         author: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "User",
@@ -28,12 +34,6 @@ const postSchema = new mongoose.Schema(
         message: {
           type: String,
         },
-      },
-    ],
-    comments: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
       },
     ],
   },

@@ -6,7 +6,7 @@ export const getCurrentUser=async(req,res)=>{
     try{
         // console.log("get current user called at backend");
         const userId=req.userId;
-        const user=await User.findById(userId).populate("posts")
+        const user=await User.findById(userId).populate("posts loops")
         // console.log("hsdjfsdf",user)
         if(!user){
             return res.status(400).json({message:"user not found"});
