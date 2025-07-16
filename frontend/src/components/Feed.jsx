@@ -4,10 +4,11 @@ import logo from '../assets/logo.png';
 import StoryDp from './StoryDp';
 import { useSelector } from 'react-redux';
 import Nav from './Nav';
-import getSuggestedUsers from '../hooks/getSuggestedUsers.jsx';
+
 
 
 const Feed = () => {
+    
   return (
 
     <div className='lg:w-[50%] min-h-[100vh] bg-[black] w-full lg:h-[100vh] relative lg:overflow-y-auto'>
@@ -22,7 +23,7 @@ const Feed = () => {
         <div className='flex w-full overflow-auto gap-[20px] items-center p-[20px]'>
             <StoryDp userName={"pranjal"} />
             <StoryDp userName={"pranjal"} />
-            <StoryDp userName={"pkfgdsfgdfgdfgdfgdfgdfg"} />
+            <StoryDp userName={"pyiytgdrtutufgdfg"} />
             <StoryDp userName={"pranjal"} />
             <StoryDp userName={"pranjal"} />
             <StoryDp userName={"pranjal"} />

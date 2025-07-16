@@ -17,7 +17,7 @@ const Nav = () => {
     return (
         <div className='w-[90%] lg:w-[40%] h-[80px] bg-black flex justify-around items-center fixed bottom-[20px] rounded-full shadow-[#000000] z-[100]'>
 
-            <div className='text-white w-[25px] h-[25px]' onClick={() => navigate('/')}><GoHomeFill /></div>
+            <div className='text-white w-[25px] h-[25px] cursor-pointer' onClick={() => navigate('/')}><GoHomeFill /></div>
             <div className='text-white w-[25px] h-[25px]'><FaSearch /></div>
             <div className='text-white w-[25px] h-[25px]'><FiPlusSquare /></div>
             <div className='text-white w-[25px] h-[25px]'><RxVideo /></div>

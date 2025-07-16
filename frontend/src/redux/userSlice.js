@@ -21,5 +21,5 @@ const userSlice=createSlice({
     }
 })
 
-export const {setUserData,suggestedUsers,setProfileData}=userSlice.actions
+export const {setUserData,setSuggestedUsers,setProfileData}=userSlice.actions
 export default userSlice.reducer

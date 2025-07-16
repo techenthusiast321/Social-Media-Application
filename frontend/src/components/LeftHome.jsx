@@ -4,10 +4,10 @@ import { FaRegHeart } from "react-icons/fa";
 import dp from '../assets/dp.webp';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
-import { serverUrl } from '../App.jsx';
+import { serverUrl } from '../App';
 import { useDispatch } from 'react-redux';
-import { setUserData } from '../redux/userSlice.js';
-import OtherUser from './OtherUser.jsx';
+import { setUserData } from '../redux/userSlice';
+import OtherUser from './OtherUser';
 
 const LeftHome = () => {
 
