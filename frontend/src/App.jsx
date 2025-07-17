@@ -11,6 +11,7 @@ import { Navigate } from 'react-router-dom'
 import getSuggestedUsers from './hooks/getSuggestedUsers'
 import Profile from './pages/Profile'
 import EditProfile from './pages/EditProfile'
+import Upload from './pages/Upload';
 export const serverUrl="http://localhost:8000"
 const App = () => {
   getCurrentUser()
@@ -26,6 +27,7 @@ const App = () => {
       <Route  path="/forgot-password" element={!userData?<ForgotPassword />:<Navigate to={"/"}/>}></Route>
       <Route path="/profile/:userName" element={userData?<Profile/>:<Navigate to={"/signin"}/>}></Route>
       <Route path="/editprofile" element={userData?<EditProfile/>:<Navigate to={"/signin"}/>}></Route>
+      <Route path="/upload" element={userData?<Upload/>:<Navigate to={"/signin"}/>}></Route>
     </Routes>
   )
 }

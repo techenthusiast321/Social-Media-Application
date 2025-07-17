@@ -6,6 +6,7 @@ import { FiPlusSquare } from "react-icons/fi";
 import dp from '../assets/dp.webp';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+
 import { Navigate } from 'react-router-dom';
 // import { setProfileData } from '../redux/userSlice.js';
 
@@ -18,9 +19,9 @@ const Nav = () => {
         <div className='w-[90%] lg:w-[40%] h-[80px] bg-black flex justify-around items-center fixed bottom-[20px] rounded-full shadow-[#000000] z-[100]'>
 
             <div className='text-white w-[25px] h-[25px] cursor-pointer' onClick={() => navigate('/')}><GoHomeFill /></div>
-            <div className='text-white w-[25px] h-[25px]'><FaSearch /></div>
-            <div className='text-white w-[25px] h-[25px]'><FiPlusSquare /></div>
-            <div className='text-white w-[25px] h-[25px]'><RxVideo /></div>
+            <div className='text-white w-[25px] h-[25px] cursor-pointer' ><FaSearch /></div>
+            <div className='text-white w-[25px] h-[25px] cursor-pointer' onClick={()=>navigate('/upload')}><FiPlusSquare /></div>
+            <div className='text-white w-[25px] h-[25px] cursor-pointer'><RxVideo /></div>
             <div className='w-[40px] h-[40px] border-2 border-black rounded-full cursor-pointer overflow-hidden' onClick={() => navigate(`/profile/${userData.userName}`)}>
             <img src={ userData.profileImage || dp} alt='' className='w-full object-cover' />
             </div>
