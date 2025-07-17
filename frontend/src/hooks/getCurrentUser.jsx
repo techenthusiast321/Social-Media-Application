@@ -2,7 +2,7 @@ import axios from "axios";
 import React from "react";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { setUserData } from "../redux/userSlice";
+import { setFollowing, setUserData } from "../redux/userSlice";
 import {serverUrl} from '../App.jsx'
 function getCurrentUser() {
 
@@ -18,6 +18,7 @@ const dispatch = useDispatch();
         // dispatch(setUserData(result.json().data))
         console.log("Current User frontend", result);
         dispatch(setUserData(result.data));
+        dispatch(setFollowing(result.data.following))
       } catch (error) {
         console.log(error);
       }

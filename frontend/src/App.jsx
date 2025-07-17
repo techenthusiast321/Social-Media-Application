@@ -12,10 +12,12 @@ import getSuggestedUsers from './hooks/getSuggestedUsers'
 import Profile from './pages/Profile'
 import EditProfile from './pages/EditProfile'
 import Upload from './pages/Upload';
+import getAllPost from './hooks/getAllPost.jsx'
 export const serverUrl="http://localhost:8000"
 const App = () => {
   getCurrentUser()
   getSuggestedUsers()
+  getAllPost()
   const {userData}=useSelector(state=>state.user)
   console.log("userData frontend appjsx", userData)
   // console.log("first", userData)
