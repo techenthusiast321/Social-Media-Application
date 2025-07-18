@@ -1,17 +1,19 @@
 import React from "react";
-import { useRef } from "react";
+import axios from "axios";
 import { useEffect } from "react";
 import { useState } from "react";
 import { FiVolume2 } from "react-icons/fi";
 import { FiVolumeX } from "react-icons/fi";
 import dp from "../assets/dp.webp";
 import FollowButton from "./FollowButton";
+import { useRef } from "react";
 import { useSelector } from "react-redux";
 import { GoHeart } from "react-icons/go";
 import { GoHeartFill } from "react-icons/go";
 import {MdOutlineComment} from "react-icons/md";
 import { setLoopData } from "../redux/loopSlice";
 import { serverUrl } from "../App";
+import { IoSendSharp } from "react-icons/io5";
 import { useDispatch } from "react-redux";
 const LoopCard = ({ loop }) => {
   const videoRef = useRef();
@@ -19,8 +21,11 @@ const LoopCard = ({ loop }) => {
   const [isMute, setIsMute] = useState(false);
   const [progress, setProgress] = useState(0);
   const [showHeart,setShowHeart]=useState(false)
+  const [showComment,setShowComments]=useState(false)
+  const [message,setMessage]=useState("")
   const {userData}=useSelector(state=>state.user)
   const {loopData}=useSelector(state=>state.loop)
+  const commentRef=useRef()
   const dispatch=useDispatch()
   const handleTimeUpdate = () => {
     const video = videoRef.current;
@@ -51,6 +56,19 @@ const LoopCard = ({ loop }) => {
        console.log(error)
      }
 }
+ const handleComment=async ()=>{
+ 
+     try {
+       const result=await axios.post(`${serverUrl}/api/loop/comment/${loop._id}`,{message},{withCredentials:true})
+       const updatedLoop=result.data
+ 
+       const updatedLoops=loopData.map(p=>p._id==loop._id?updatedLoop:p)
+       dispatch(setLoopData(updatedLoops))
+        setMessage("")
+     } catch (error) {
+       console.log(error)
+     }
+}
 
  const handleLikeOnDoubleClick=()=>{
      setShowHeart(true)
@@ -58,6 +76,21 @@ const LoopCard = ({ loop }) => {
      {!loop.likes.includes(userData._id) ? handleLike():null}
 
  }
+
+ useEffect(()=>{
+    const handleClickOutside=(event)=>{
+       if(commentRef.current && !commentRef.current.contains(event.target)){
+        setShowComments(false)
+       }
+    }
+
+    if(showComment){
+      document.addEventListener('mousedown',handleClickOutside)
+    }else{
+      document.removeEventListener('mousedown',handleClickOutside)
+    }
+ },[showComment])
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entry) => {
@@ -108,22 +141,16 @@ const LoopCard = ({ loop }) => {
             </div>
           )}
 
-          {loop.comments?.map((com, index) => (
-            <div className="w-full  flex flex-col gap-[5px] border-b-[1px] border-gray-800 justify-center pb-[10px] mt-[10px]" key={index}>
-              <div className="flex justify-start items-center md:gap-[20px] gap-[10px]">
-                <div className="w-[30px] h-[30px] md:w-[40px] md:h-[40px] border-2 border-black rounded-full cursor-pointer overflow-hidden">
-                  <img
-                    src={com.author?.profileImage || dp}
-                    alt=""
-                    className="w-full object-cover"
-                  />
-                </div>
-                <div className="w-[150px] font-semibold text-white truncate">
-                  {com.author?.userName}
-                </div>
-              </div>
-              <div className="text-white pl-[60px]">{com.message}</div>
-            </div>
+          {loop.comments?.map((com,index)=>(
+          <div className='w-full  flex flex-col gap-[5px] border-b-[1px] border-gray-800 justify-center pb-[10px] mt-[10px]'>
+          <div className='flex justify-start items-center md:gap-[20px] gap-[10px]'>
+                    <div className='w-[30px] h-[30px] md:w-[40px] md:h-[40px] border-2 border-black rounded-full cursor-pointer overflow-hidden'>
+                      <img src={com.author?.profileImage || dp} alt="" className='w-full object-cover' />
+                    </div>
+                    <div className='w-[150px] font-semibold text-white truncate'>{com.author?.userName}</div>
+                  </div>
+                  <div className='text-white pl-[60px]'>{com.message}</div>
+          </div>
           ))}
         </div>
         <div className="w-full fixed bottom-0 h-[80px] flex items-center justify-between px-[20px] py-[20px] ">
@@ -169,9 +196,9 @@ const LoopCard = ({ loop }) => {
         onClick={() => setIsMute((prev) => !prev)}
       >
         {!isMute ? (
-          <MdVolumeUp className="w-[20px] h-[20px] text-white font-semibold" />
+          <FiVolume2 className="w-[20px] h-[20px] text-white font-semibold" />
         ) : (
-          <MdVolumeOff className="w-[20px] h-[20px] text-white font-semibold" />
+          <FiVolumeX className="w-[20px] h-[20px] text-white font-semibold" />
         )}
       </div>
 
@@ -221,7 +248,7 @@ const LoopCard = ({ loop }) => {
             <div>{loop.likes.length}</div>
           </div>
 
-          <div className="flex flex-col items-center cursor-pointer">
+          <div className="flex flex-col items-center cursor-pointer" onClick={()=>setShowComments(true)}>
             <div>
               <MdOutlineComment className="w-[25px] cursor-pointer h-[25px]" />
             </div>
