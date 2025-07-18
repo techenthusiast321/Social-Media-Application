@@ -18,6 +18,29 @@ if(isPlaying){
 }
 }
 
+ useEffect(()=>{
+    const observer=new IntersectionObserver((entry)=>{
+      const video=videoTag.current
+      if(entry.isIntersecting){
+        video.play()
+         setIsplaying(true)
+      }else{
+        video.pause()
+        setIsplaying(false)
+      }
+      // console.log(entry)
+    },{threshold:0.6})
+    if(videoTag.current){
+      observer.observe(videoTag.current)
+    }
+
+    return ()=>{
+       if(videoTag.current){
+           observer.unobserve(videoTag.current)
+       }
+    }
+    
+  },[])
 
 
   return (

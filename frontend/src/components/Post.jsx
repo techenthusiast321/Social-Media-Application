@@ -70,9 +70,11 @@ const Post = ({ post }) => {
   const handleSaved = async () => {
 
     try{
-
+      console.log("post in handleSaved before axios call ", userData);
       const result = await axios.get(`${serverUrl}/api/post/saved/${post._id}`, {withCredentials: true});
+      console.log("result in handleSaved: ", result.data);
       dispatch(setUserData(result.data));
+      console.log("userData in handleSaved after dispatch:", userData);
 
     }
     catch (error) {
@@ -148,13 +150,17 @@ const Post = ({ post }) => {
             <span>{post.comments.length}</span>
           </div>
         </div>
-        <div onClick={handleSaved}>
+        {/* <div onClick={handleSaved}>
           {!userData.saved.includes(post?._id) && (
             <MdOutlineBookmarkBorder className="w-[25px] cursor-pointer h-[25px]" />
           )}
           {userData.saved.includes(post?._id) && (
             <GoBookmarkFill className="w-[25px] cursor-pointer h-[25px]" />
           )}
+        </div> */}
+<div onClick={handleSaved}>
+          {!userData.saved.includes(post?._id) && <MdOutlineBookmarkBorder className='w-[25px] cursor-pointer h-[25px]' />}
+          {userData.saved.includes(post?._id) && <GoBookmarkFill className='w-[25px] cursor-pointer h-[25px]' />}
         </div>
       </div>
 

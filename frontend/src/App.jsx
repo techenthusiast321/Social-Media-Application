@@ -13,11 +13,14 @@ import Profile from './pages/Profile'
 import EditProfile from './pages/EditProfile'
 import Upload from './pages/Upload';
 import getAllPost from './hooks/getAllPost.jsx'
+import getAllLoops from './hooks/getAllLoops.jsx'
+import Loops from './pages/Loops'
 export const serverUrl="http://localhost:8000"
 const App = () => {
   getCurrentUser()
   getSuggestedUsers()
   getAllPost()
+  getAllLoops()
   const {userData}=useSelector(state=>state.user)
   console.log("userData frontend appjsx", userData)
   // console.log("first", userData)
@@ -30,6 +33,7 @@ const App = () => {
       <Route path="/profile/:userName" element={userData?<Profile/>:<Navigate to={"/signin"}/>}></Route>
       <Route path="/editprofile" element={userData?<EditProfile/>:<Navigate to={"/signin"}/>}></Route>
       <Route path="/upload" element={userData?<Upload/>:<Navigate to={"/signin"}/>}></Route>
+      <Route path="/loops" element={userData?<Loops/>:<Navigate to={"/signin"}/>}></Route>
     </Routes>
   )
 }

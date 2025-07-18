@@ -21,7 +21,7 @@ const Nav = () => {
             <div className='text-white w-[25px] h-[25px] cursor-pointer' onClick={() => navigate('/')}><GoHomeFill /></div>
             <div className='text-white w-[25px] h-[25px] cursor-pointer' ><FaSearch /></div>
             <div className='text-white w-[25px] h-[25px] cursor-pointer' onClick={()=>navigate('/upload')}><FiPlusSquare /></div>
-            <div className='text-white w-[25px] h-[25px] cursor-pointer'><RxVideo /></div>
+            <div className='text-white w-[25px] h-[25px] cursor-pointer' onClick={()=>navigate('/loops')}><RxVideo /></div>
             <div className='w-[40px] h-[40px] border-2 border-black rounded-full cursor-pointer overflow-hidden' onClick={() => navigate(`/profile/${userData.userName}`)}>
             <img src={ userData.profileImage || dp} alt='' className='w-full object-cover' />
             </div>
