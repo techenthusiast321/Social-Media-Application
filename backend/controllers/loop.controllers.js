@@ -1,5 +1,6 @@
 import Loop from "../models/loop.model.js";
 import User from "../models/user.model.js";
+import uploadOnCloudinary from '../config/cloudinary.js';
 export const uploadLoop=async(req,res)=>{
     try{
         const {caption}=req.body;
@@ -16,7 +17,7 @@ export const uploadLoop=async(req,res)=>{
         const user=await User.findById(req.userId);
         user.loops.push(loop._id);
         await user.save();
-        const populatedLoop=await Post.findById(loop._id).populate("author","name userName profileImage")
+        const populatedLoop=await Loop.findById(loop._id).populate("author","name userName profileImage")
         return res.status(201).json(populatedLoop);
 
     }catch(error){
@@ -46,7 +47,7 @@ export const like=async(req,res)=>{
 
         await loop.save()
 
-        loop.populate("author","name userName profileImage")
+        await loop.populate("author","name userName profileImage")
         return res.status(200).json(loop);
     }catch(error){
           return res.status(500).json({message:`likeLoop error: ${error}`});
@@ -69,8 +70,8 @@ export const comment=async(req,res)=>{
         })
 
         await loop.save()
-        loop.populate("author","name userName profileImage"),
-        loop.populate("comments.author") 
+        await loop.populate("author","name userName profileImage"),
+        await loop.populate("comments.author") 
         
         return res.status(200).json(loop);
     }catch(error){

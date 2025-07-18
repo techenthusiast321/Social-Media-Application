@@ -35,5 +35,5 @@ const loopSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Loop = mongoose.model("loop", loopSchema);
+const Loop = mongoose.model("Loop", loopSchema);
 export default Loop;
