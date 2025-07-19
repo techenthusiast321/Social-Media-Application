@@ -34,10 +34,12 @@ export const uploadStory=async(req,res)=>{
 
 
 export const viewStory=async(req,res)=>{
+    console.log("view story called in backend")
     try{
         const storyId=req.params.storyId;
-
+        
         const story=await Story.findById(storyId)
+        console.log("story in view story in backend",story)
         if(!story){
             return res.status(404).json({message:"Story not found"});
         }
@@ -61,8 +63,10 @@ export const viewStory=async(req,res)=>{
 
 export const getStoryByUserName=async(req,res)=>{
     try{
+        console.log("get story by userName called in backend")
         const userName=req.params.userName
         const user=await User.findOne({userName})
+        
         if(!user){
             return res.status(400).json({message:"User not found"});
         }
@@ -70,9 +74,26 @@ export const getStoryByUserName=async(req,res)=>{
         const story=await Story.findOne({
             author:user._id
         }).populate("viewers author")
-
+        console.log("story",story)
         return res.status(200).json(story)
     }catch(error){
         res.status(500).json({message:`story get by userName error: ${error}`});
     }
+}
+
+export const getAllStories=async(req,res)=>{
+    try{
+        const currentUser=await User.findById(req.userId);
+        const followingIds=currentUser.following
+        const stories=await Story.find({
+            author:{$in:followingIds}
+        }).populate("viewers author").sort({createdAt:-1});
+        return res.status(200).json(stories);
+
+
+        
+    }catch(error){
+        res.status(500).json({message:`All story get error: ${error}`});
+    }
+
 }

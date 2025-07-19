@@ -1,12 +1,65 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import dp from '../assets/dp.webp'
+import { FiPlusCircle } from 'react-icons/fi'
+import {useNavigate} from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import {serverUrl} from '../App'
+import axios from 'axios'
+import { useState } from 'react'
 
-const StoryDp = ({ProfileImage, userName}) => {
+const StoryDp = ({ProfileImage, userName,story}) => {
+    const navigate=useNavigate()
+    const {userData}=useSelector(state=>state.user) 
+    const {storyData,storyList}=useSelector(state=>state.story)
+    const [viewed,setViewed]=useState(false)
+
+    useEffect(()=>{
+        if( story?.viewers?.some((viewer)=>
+        viewer?._id?.toString()==userData?._id.toString() || viewer?.toString()==userData?._id.toString() 
+        )){
+            setViewed(true)
+        }else{
+            setViewed(false)
+        }
+
+    },[story,userData,storyData,storyList])
+    const handleViewers=async()=>{
+        try{
+            console.log("handle view called in frontend")
+            const result=await axios.get(`${serverUrl}/api/story/view/${story._id}`,{withCredentials:true})
+            console.log("result in handleView: ", result.data);
+        }catch(error){
+            console.log("error in handleView in frontend: ", error);
+        }
+    }   
+    const handleClick=()=>{
+        if(!story && userName=="Your Story"){
+            navigate('/upload')
+        }else if(story && userName=="Your Story"){
+            handleViewers()
+            navigate(`/story/${userData.userName}`)
+          
+        }else{
+            handleViewers()
+            navigate(`/story/${userName}`)
+            
+        }
+        
+    }
     return (
-        <div className='flex flex-col w-[80px]'>
-            <div className='w-[80px] h-[80px] bg-gradient-to-b from-blue-500 to-blue-950 rounded-full flex items-center justify-center'>
+        <div className='flex flex-col w-[80px]' >
+            <div className={`w-[80px] h-[80px]  ${!story?"":!viewed? "bg-gradient-to-b from-blue-500 to-blue-950" : "bg-gradient-to-b to-gray-500 to-black-800"}  rounded-full flex items-center justify-center relative`} onClick={handleClick}>
                 <div className='w-[70px] h-[70px] border-2 border-black rounded-full cursor-pointer overflow-hidden'>
-                    <img src={dp} alt='' className='w-full object-cover' />
+                    <img src={ProfileImage || dp} alt='' className='w-full object-cover' />
+                    {!story && userName=="Your Story" && 
+                    <div>
+                         <FiPlusCircle className="text-black absolute bottom-[8px] right-[10px] bg-white rounded-full w-[22px]  h-[22px]" />
+                    </div>
+                    }
+
+                   
+
+                    
                 </div>
             </div>
 

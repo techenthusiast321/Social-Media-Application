@@ -10,9 +10,10 @@ import axios from 'axios';
 import { serverUrl } from '../App';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPostData } from '../redux/postSlice';
-import {  setStoryData } from '../redux/storySlice';
+import {  setCurrentUserStory, setStoryData } from '../redux/storySlice';
 import { setLoopData } from '../redux/loopSlice';
 import { ClipLoader } from 'react-spinners';
+
 
 
 function Upload() {
@@ -62,7 +63,8 @@ const uploadStory=async ()=>{
         formData.append("mediaType",mediaType)
         formData.append("media",backendMedia)
         const result=await axios.post(`${serverUrl}/api/story/upload`,formData,{withCredentials:true})
-       dispatch(setStoryData([...storyData,result.data]))
+        dispatch(setCurrentUserStory(result.data))
+        console.log("Story Data Fetched in frontend: ", result.data);
        setLoading(false)
         navigate('/')
     } catch (error) {

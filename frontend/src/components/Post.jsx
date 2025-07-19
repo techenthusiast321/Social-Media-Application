@@ -49,15 +49,18 @@ const Post = ({ post }) => {
 
   };
 
-  const handleComment = async () => {
+const handleComment = async () => {
 
     try{
 
       const result = await axios.post(`${serverUrl}/api/post/comment/${post._id}`, { message }, {withCredentials: true});
+      console.log("first", result)
       const updatedPost = result.data;
 
       const updatedPosts = postData.map((p) => p._id == post._id ? updatedPost : p);
+      // console.log("first", updatedPosts)
       dispatch(setPostData(updatedPosts));
+
       setMessage("");
 
     }
@@ -66,6 +69,16 @@ const Post = ({ post }) => {
     }
 
   };
+
+    // const user = await User.findByIdAndUpdate(
+    //     req.user?._id,
+    //     {
+    //         $set: updateFields,
+    //     },
+    //     {
+    //         new: true,
+    //     },
+    // ).select("-password -refreshToken -accessToken");
 
   const handleSaved = async () => {
 

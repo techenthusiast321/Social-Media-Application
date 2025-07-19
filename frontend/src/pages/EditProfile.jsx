@@ -30,7 +30,7 @@ const EditProfile = () => {
     }
 
     const handleEditProfile=async()=>{
-        console.log("shfgs")
+        
         setLoading(true)
         try{
             const formdata=new FormData()

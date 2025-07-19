@@ -9,6 +9,8 @@ import Post from './Post';
 
 const Feed = () => {
     const {postData}=useSelector(state=>state.post)
+    const {userData}=useSelector(state=>state.user)
+    const {storyList={},currentUserStory}=useSelector(state=>state.story)
   return (
 
     <div className='lg:w-[50%] min-h-[100vh] bg-[black] w-full lg:h-[100vh] relative lg:overflow-y-auto'>
@@ -21,28 +23,22 @@ const Feed = () => {
         </div>
 
         <div className='flex w-full overflow-auto gap-[20px] items-center p-[20px]'>
-            <StoryDp userName={"pranjal"} />
-            <StoryDp userName={"pranjal"} />
-            <StoryDp userName={"pyiytgdrtutufgdfg"} />
-            <StoryDp userName={"pranjal"} />
-            <StoryDp userName={"pranjal"} />
-            <StoryDp userName={"pranjal"} />
-            <StoryDp userName={"pranjal"} />
-            <StoryDp userName={"pranjal"} />
-            <StoryDp userName={"pranjal"} />
-            <StoryDp userName={"pranjal"} />
-            <StoryDp userName={"pranjal"} />
-            <StoryDp userName={"pranjal"} />
+            <StoryDp userName={"Your Story"} ProfileImage={userData.profileImage} story={currentUserStory}/>
+
+            {storyList?.map((story,index)=>(
+                 <StoryDp userName={story.author.userName} ProfileImage={story.author.profileImage} story={story} key={index}/>
+            ))}
         </div>
 
         <div className='w-full min-h-[100vh] flex flex-col items-center gap-[20px] p-[10px] pt-[40px] bg-white rounded-t-[60px] relative pb-[120px]'>
             <Nav />
-        </div>
+        
         
 
         {postData?.map((post,index)=>(
             <Post post={post} key={index}/>
         ))}
+        </div>
     </div>
 
   )

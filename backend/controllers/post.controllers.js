@@ -69,14 +69,15 @@ export const comment=async(req,res)=>{
     try{
         const {message}=req.body;
         const postId=req.params.postId;
-        console.log("message in backend",message);
+        // console.log("first", postId)
+        // console.log("message in backend",message);
         const post =await Post.findById(postId);
-        console.log("post in backend",post);
+        // console.log("post in backend",post);
         if(!post){
              return res.status(404).json({message:"Post not found"});
         }
 
-        post?.comments.push({
+        post.comments.push({
             author:req.userId,
             message
         })
@@ -86,6 +87,7 @@ export const comment=async(req,res)=>{
         await post
         .populate("author","name userName profileImage")
         .populate("comments.author") 
+        console.log("post in backend after populate",post);
         
         return res.status(200).json(post);
     }catch(error){
@@ -97,9 +99,9 @@ export const comment=async(req,res)=>{
 export const saved=async(req,res)=>{
     try{
         const postId=req.params.postId
-        console.log("postId in backend",postId);
+        // console.log("postId in backend",postId);
         const user=await User.findById(req.userId);
-        console.log("user in backend",user);
+        // console.log("user in backend",user);
 
         const alreadySaved=user.saved.some(id=>id.toString()==postId.toString());
         if(alreadySaved){
@@ -109,10 +111,11 @@ export const saved=async(req,res)=>{
         else{
             user.saved.push(postId)
         }
-        console.log("user in backend after saved",alreadySaved);
+        // console.log("user in backend after saved",alreadySaved);
         await user.save()
 
         await user.populate("saved")
+        // console.log("first", user)
         return res.status(200).json(user);
     }catch(error){
           return res.status(500).json({message:`savedPost error: ${error}`});
